@@ -1,7 +1,7 @@
 #!/bin/sh
 
 setwall &
-[[ -f "$HOME/.config/x11/xresources" ]] && xrdb $HOME/.config/x11/xresources
+[[ -f "$HOME/.config/x11/xresources" ]] && xrdb -merge -I$HOME $HOME/.config/x11/xresources
 [[ -f "$HOME/.config/x11/xmodmap" ]] && xmodmap $HOME/.config/x11/xmodmap
 dwm_bar &
 xcompmgr &

@@ -3,7 +3,7 @@
 URL="https://www.youtube.com"
 CHANNEL="$(cat "$HOME/data/channel")"
 
-SELECT="$(echo "$CHANNEL" | dmenu -i -l 10)"
+SELECT="$(echo "$CHANNEL" | dmenu -i -l 10 -p "select channel: ")"
 
 if [ "$SELECT" != "" ]; then
     xdg-open "$URL/$SELECT"

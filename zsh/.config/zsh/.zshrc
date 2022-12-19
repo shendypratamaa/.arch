@@ -21,11 +21,23 @@ _comp_options+=(globdots)
 
 # ZSH
 if [[ "$SHELL" = "zsh" ]] || [[ "$SHELL" = "/usr/bin/zsh" ]]; then
-    fpath=("$HOME/.config/zsh/plugins/zsh-completions/src" $fpath)
-    source "$HOME/.config/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-    source "$HOME/.config/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
     source /usr/share/fzf/completion.zsh
     source /usr/share/fzf/key-bindings.zsh
+    fpath=("$HOME/.config/zsh/plugins/zsh-completions/src" $fpath)
+    source "$HOME/.config/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+    source "$HOME/.config/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+
+    if [[ -d "$HOME/.config/zsh/plugins/zsh-syntax-highlighting" ]]; then
+        typeset -A ZSH_HIGHLIGHT_STYLES
+        ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=124'
+        ZSH_HIGHLIGHT_STYLES[alias]='fg=048'
+        ZSH_HIGHLIGHT_STYLES[global-alias]='fg=048'
+        ZSH_HIGHLIGHT_STYLES[suffix-alias]='fg=048'
+        ZSH_HIGHLIGHT_STYLES[builtin]='fg=048'
+        ZSH_HIGHLIGHT_STYLES[command]='fg=048'
+        ZSH_HIGHLIGHT_STYLES[function]='fg=048'
+        ZSH_HIGHLIGHT_STYLES[command]='fg=048'
+    fi
 fi
 
 # basic
@@ -33,6 +45,7 @@ alias src='exec $SHELL'
 alias reboot='sudo shutdown -r now'
 alias shutdown="sudo poweroff"
 alias ls='exa -s Extension --icons -h'
+alias la='exa -s Extension --icons -h -a'
 alias rm='rm -v'
 alias cp='cp -v'
 alias mv='mv -v'
@@ -72,21 +85,28 @@ alias wget=wget --hsts-file="$XDG_DATA_HOME/wget-hsts"
 # PROMPT
 autoload -U colors && colors
 autoload -Uz vcs_info
+
 zstyle ':vcs_info:*' enable git
+
 precmd_vcs_info() { vcs_info }
 precmd_functions+=( precmd_vcs_info )
 setopt prompt_subst
+
 zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
+
 +vi-git-untracked(){
     if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
         git status --porcelain | grep '??' &> /dev/null ; then
         hook_com[staged]+='!'
     fi
 }
+
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:git:*' formats " %B%{$fg[yellow]%}git:%{$fg[white]%}(%{$fg[red]%}%b%{$fg[white]%})"
+
 sysinfo=$(uname -a | awk '{print $2}')
 icon=$(echo -n "%B%F{white}%{%G%}")
+
 PROMPT="%B%{$fg[white]%}[%{$fg[red]%}%n%{$fg[white]%} ${icon} %{$fg[yellow]%}${sysinfo} %{$fg[blue]%}%~%{$fg[white]%}]"
 PROMPT+="\$vcs_info_msg_0_ %(?:%{$fg[green]%}%{%G➜%} :%{$fg[red]%}%{%G➜%} )"
 
@@ -136,12 +156,12 @@ EXCLUDE_FZF=" \
 --exclude=.git \
 --exclude=.cache \
 --exclude=.node_modules \
+--exclude=.arch \
 --exclude=.local \
 --exclude=.npm \
 --exclude=.ssh \
 --exclude=.viminfo \
 --exclude=.mozilla \
---exclude=.config/nvm \
 --exclude=go \
 --exclude=Pictures \
 --exclude=Public \
