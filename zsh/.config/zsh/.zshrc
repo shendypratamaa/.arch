@@ -65,7 +65,7 @@ alias msc="pipe-viewer -n --no-video-info --player=mpvt"
 alias cdc="cd ~/.config"
 alias cdn="cd ~/.config/nvim"
 alias cdz="cd ~/.config/zsh"
-alias cdm="cd ~/.minimal-ways"
+alias cdm="cd ~/.arch"
 alias cds="cd ~/.local/bin"
 alias cdw="cd ~/.local/share/suckless"
 

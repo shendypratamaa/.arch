@@ -20,7 +20,7 @@ install() {
    # DOTFILES
    if [[ -d "$HOME/.arch" ]]; then
       # CONFIG
-      cd "$HOME/.minimal-ways" && stow -v "${mydir[@]}"
+      cd "$HOME/.arch" && stow -v "${mydir[@]}"
       ln -sfv "$HOME/.arch/.vimrc" "$HOME/.vimrc"
       ln -sfv "$HOME/.arch/.xinitrc" "$HOME/.xinitrc"
       ln -sfv "$HOME/.arch/.zprofile" "$HOME/.zprofile"
