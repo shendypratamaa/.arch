@@ -20,6 +20,7 @@ local function lspkeymaps()
     keymap("n", "gn", ":TSLspImportAll<CR>", opts)
 
     keymap("n", "gd", ":lua vim.lsp.buf.definition()<CR>", opts)
+    keymap("n", "<leader>fo", ":Format<CR>", opts)
 
     vim.cmd([[ command! Format execute 'lua vim.lsp.buf.format()' ]])
 end

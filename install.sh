@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mydir=(
+directory=(
    X11
    git
    lazygit
@@ -16,16 +16,22 @@ mydir=(
    local
 )
 
-install() {
-   # DOTFILES
-   if [[ -d "$HOME/.arch" ]]; then
-      # CONFIG
-      cd "$HOME/.arch" && stow -v "${mydir[@]}"
-      ln -sfv "$HOME/.arch/.vimrc" "$HOME/.vimrc"
-      ln -sfv "$HOME/.arch/.xinitrc" "$HOME/.xinitrc"
-      ln -sfv "$HOME/.arch/.zprofile" "$HOME/.zprofile"
+initfile=(
+   .vimrc
+   .xinitrc
+   .zprofile
+)
 
-      # ZSH
+install() {
+   if [[ -d "$HOME/.arch" ]]; then
+
+      cd "$HOME/.arch" && stow -v "${directory[@]}"
+
+      for file in "${initfile[@]}"
+      do
+         ln -sfv "$HOME/.arch/$file" "$HOME/"
+      done
+
       if [[ -d "$HOME/.config/zsh" ]]; then
          mkdir -p "$HOME/.config/zsh/plugins"
          cd "$HOME/.config/zsh/plugins" &&
@@ -34,19 +40,19 @@ install() {
             git clone https://github.com/zsh-users/zsh-completions
       fi
 
-      # DWM
-      if [[ -d "$HOME/.local/share" ]];then
+      if [[ -d "$HOME/.local/share" ]]; then
          mkdir -p "$HOME/.local/share"
-         cd "$HOME/.local/share" && git clone https://github.com/shendypratamaa/suckless
+         cd "$HOME/.local/share" &&
+            git clone https://github.com/shendypratamaa/suckless
       fi
 
    fi
 }
 
 if [ "$1" = "-go" ]; then
-   echo "========================= Process Start ... ============================== "
+   echo "========================== Process Start ... ================================"
    install
-   echo "========================= Process Complete ... ============================== "
+   echo "========================= Process Complete ... =============================="
    exit
 else
    echo "Please run install -go"

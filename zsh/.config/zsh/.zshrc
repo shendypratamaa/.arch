@@ -19,11 +19,8 @@ compinit -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
 compinit -d $XDG_CACHE_HOME/zsh/zcompdump
 _comp_options+=(globdots)
 
-# ZSH LOAD UTILS
+# ZSH
 if [[ "$SHELL" = "zsh" ]] || [[ "$SHELL" = "/usr/bin/zsh" ]]; then
-
-    [[ ":$PATH:" =~ "$HOME/.local/bin" ]] || PATH="$HOME/.local/bin:$PATH"
-
     fpath=("$HOME/.config/zsh/plugins/zsh-completions/src" $fpath)
     source "$HOME/.config/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
     source "$HOME/.config/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
