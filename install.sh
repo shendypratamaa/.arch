@@ -18,12 +18,12 @@ mydir=(
 
 install() {
    # DOTFILES
-   if [[ -d "$HOME/.minimal-ways" ]]; then
+   if [[ -d "$HOME/.arch" ]]; then
       # CONFIG
       cd "$HOME/.minimal-ways" && stow -v "${mydir[@]}"
-      ln -sfv "$HOME/.minimal-ways/.vimrc" "$HOME/.vimrc"
-      ln -sfv "$HOME/.minimal-ways/.xinitrc" "$HOME/.xinitrc"
-      ln -sfv "$HOME/.minimal-ways/.zprofile" "$HOME/.zprofile"
+      ln -sfv "$HOME/.arch/.vimrc" "$HOME/.vimrc"
+      ln -sfv "$HOME/.arch/.xinitrc" "$HOME/.xinitrc"
+      ln -sfv "$HOME/.arch/.zprofile" "$HOME/.zprofile"
 
       # ZSH
       if [[ -d "$HOME/.config/zsh" ]]; then
