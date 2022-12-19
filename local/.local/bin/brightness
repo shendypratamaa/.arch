@@ -1,0 +1,48 @@
+#!/bin/sh
+
+MAX_VAL=$(cat /sys/class/backlight/apple-panel-bl/max_brightness)
+CURR_VAL=$(cat /sys/class/backlight/apple-panel-bl/brightness)
+CHANGE_VAL="/sys/class/backlight/apple-panel-bl/brightness"
+
+VALUE=$(( "$MAX_VAL" / 10 )) # 42
+LIMIT_LOW="$(( "$VALUE" * 2 ))"
+
+set_brightness() {
+    echo "$@" | sudo tee "$CHANGE_VAL" >/dev/null
+}
+
+manual_brightness() {
+    if [ "$1" = "" ]; then
+        D_VAL="1\n2\n3\n4\n5\n6\n7\n8\n9\n"
+        S_VAL=$(echo -e $D_VAL | dmenu -p "Brightness value :" -i)
+        NEW_VALUE="$(( "$VALUE" * "$S_VAL" ))"
+        set_brightness "$NEW_VALUE"
+    elif [ "$1" -lt 10 ]; then
+        NEW_VALUE="$(( "$VALUE" * "$1" ))"
+        set_brightness "$NEW_VALUE"
+    else
+        notify-send 'Brightness value range [1..9]'
+    fi
+}
+
+increase_brightness() {
+     if [ "$CURR_VAL" -lt "$MAX_VAL" ]; then
+        NEW_VALUE="$(( "$CURR_VAL" + "$VALUE" ))"
+        set_brightness "$NEW_VALUE"
+     fi
+}
+
+decrease_brightness() {
+    if [ "$CURR_VAL" -gt $LIMIT_LOW ]; then
+        NEW_VALUE="$(( "$CURR_VAL" - "$VALUE" ))"
+        set_brightness "$NEW_VALUE"
+    fi
+}
+
+if [ "$1" = "-u" ]; then
+    increase_brightness "${@:1}"
+elif [ "$1" = "-d" ]; then
+    decrease_brightness "${@:1}"
+else
+    manual_brightness "${@:1}"
+fi

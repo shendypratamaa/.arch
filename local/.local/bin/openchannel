@@ -1,0 +1,12 @@
+#!/bin/sh
+
+URL="https://www.youtube.com"
+CHANNEL="$(cat "$HOME/data/channel")"
+
+SELECT="$(echo "$CHANNEL" | dmenu -i -l 10)"
+
+if [ "$SELECT" != "" ]; then
+    xdg-open "$URL/$SELECT"
+else
+    notify-send "No Channel Selected !"
+fi

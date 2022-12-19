@@ -1,0 +1,12 @@
+#!/bin/sh
+
+SUCKLESS="$HOME/.local/share/suckless"
+
+if [ -d "$SUCKLESS" ]; then
+    rm -f "$SUCKLESS/dmenu/config.h"
+    rm -f "$SUCKLESS/dwm/config.h"
+    rm -f "$SUCKLESS/st/config.h"
+    cd "$SUCKLESS/dmenu" && sudo make clean install "config.def.h"
+    cd "$SUCKLESS/dwm" && sudo make clean install "config.def.h"
+    cd "$SUCKLESS/st" && sudo make clean install "config.def.h"
+fi

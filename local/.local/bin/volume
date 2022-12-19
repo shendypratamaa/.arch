@@ -1,0 +1,38 @@
+#!/bin/sh
+
+CURRENT_VOLUME="$(pulsemixer --get-volume | awk '{print $1}')"
+DEFAULT_VALUE=5
+
+set_volume() {
+    pulsemixer --set-volume "$@"
+}
+
+increase_volume() {
+    if [ "$CURRENT_VOLUME" -lt 50 ]; then
+        if [ "$1" = "" ]; then
+            NEW_VALUE="$(("$CURRENT_VOLUME" + "$DEFAULT_VALUE"))"
+            set_volume $NEW_VALUE
+        else
+            NEW_VALUE="$(("$CURRENT_VOLUME" + "$1"))"
+            set_volume $NEW_VALUE
+        fi
+    fi
+}
+
+decrease_volume() {
+    if [ "$CURRENT_VOLUME" -gt 0 ]; then
+        if [ "$1" = "" ]; then
+            NEW_VALUE="$(("$CURRENT_VOLUME" - "$DEFAULT_VALUE"))"
+            set_volume $NEW_VALUE
+        else
+            NEW_VALUE="$(("$CURRENT_VOLUME" - "$1"))"
+            set_volume $NEW_VALUE
+        fi
+    fi
+}
+
+if [ "$1" = "-u" ]; then
+    increase_volume "${@:2}"
+elif [ "$1" = "-d" ]; then
+    decrease_volume "${@:2}"
+fi

@@ -1,0 +1,81 @@
+* {
+    font-family: "JetBrains Mono";
+    font-size: 20px;
+}
+
+.button-box .button-icon {
+    display: none;
+}
+
+.tabbrowser-strip *[class^="scrollbutton"] {
+    /* Hide tab scroll buttons */
+    display: none;
+}
+
+.tabbrowser-strip *[class^="tabs-alltabs"] {
+    /* Hide tab drop-down list */
+    display: none;
+}
+
+.tabbrowser-strip *[class^="tabs-newtab-button"] {
+    /* Hide new-tab button */
+    display: none;
+}
+
+/* Display the tabbar on the left */
+#content > tabbox {
+    -moz-box-orient: horizontal;
+}
+
+.tabbrowser-strip {
+    -moz-box-orient: vertical;
+    /*
+     * You can set this to -moz-scrollbars-vertical instead,
+     * but then the scrollbar will *always* be visible.  this way
+     * there is never a scrollbar, so it behaves like the tab bar
+     * normally does
+     */
+     overflow: -moz-scrollbars-none;
+}
+
+.tabbrowser-tabs {
+    -moz-box-orient: horizontal;
+    -min-width: 20ex;   /* You may want to increase this value */
+    -mox-box-pack: start;
+    -moz-box-align: start;
+}
+
+.tabbrowser-tabs > hbox {
+    -moz-box-orient: vertical;
+    -moz-box-align: stretch;
+    -moz-box-pack: start;
+}
+
+.tabbrowser-tabs > hbox > tab {
+    -moz-box-align: start;
+    -moz-box-orient: horizontal;
+}
+
+#PersonalToolbar {
+    visibility: collapse !important;
+}
+
+#navigator-toolbox:hover > #PersonalToolbar {
+    visibility: visible !important;
+}
+
+/* remove maximum/minimum  width restriction of sidebar */
+#sidebar {
+    max-width: none !important;
+    min-width: 0px !important;
+}
+
+input:not(.urlbar-input):not(.textbox-input):not(.form-control):not([type='checkbox']):not([type='radio']), textarea, select {
+    -moz-appearance: none !important;
+    background-color: white;
+    color: black;
+}
+
+#downloads-indicator-counter {
+    color: white;
+}

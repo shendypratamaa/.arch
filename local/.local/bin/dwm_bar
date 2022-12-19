@@ -1,0 +1,111 @@
+#!/bin/sh
+
+# INIT
+printf "$$" > ~/.cache/pidofbar
+SEC=0
+
+update_cpu () {
+	CPU="$(uptime | grep -i load | awk -F ',' '{print $3}' | awk '{print $3}')"
+}
+
+update_memory () {
+        MEMORY="$(free -h | grep Mem | awk '{print $3}' | sed 's/.$//g')"
+}
+
+update_time () {
+	TIME="$(date "+[  %a %d %b ] [  %I:%M %p ]")"
+}
+
+update_weather () {
+	curl https://ipinfo.io/ip > "$HOME/data/ip"
+	LOCATION=$(curl https://ipinfo.io/$(cat "$HOME/data/ip") | jq . | grep -i city | awk -F '"' '{print $4}')
+	WEATHER="$(curl -s "wttr.in/$LOCATION?format=1"| awk -F ' ' '{print $2}')"
+}
+
+update_battery () {
+	read -r POWER_STATUS <<< $(cat /sys/class/power_supply/macsmc-battery/uevent | grep -i status | tail -1 | awk -F '=' '{print $2}')
+	read -r CURRENT_CAPACITY <<< $(cat /sys/class/power_supply/macsmc-battery/uevent | grep -i capacity | head -1 | awk -F '=' '{print $2}')
+
+	if [ "$POWER_STATUS" = "Charging" ] || [ "$POWER_STATUS" = "Full" ]; then
+		POWER_STATUS=""
+	elif [ "$CURRENT_CAPACITY" -ge 100 ]; then
+		POWER_STATUS=""
+	elif [ "$CURRENT_CAPACITY" -ge 75 ]; then
+		POWER_STATUS=""
+	elif [ "$CURRENT_CAPACITY" -ge 50 ]; then
+		POWER_STATUS=""
+	elif [ "$CURRENT_CAPACITY" -ge 25 ]; then
+		POWER_STATUS=""
+	else
+		POWER_STATUS=""
+	fi
+	BATTERY="$POWER_STATUS $CURRENT_CAPACITY%"
+}
+
+update_disk (){
+	NVME="$(df -h | grep -i /dev/nvme0n1p5 | awk '{print $4}')"
+}
+
+update_network () {
+	update() {
+	    SUM=0
+	    for ARG; do
+		read -r i < "$ARG"
+		SUM=$(( SUM + i ))
+	    done
+	    CACHE=/tmp/${1##*/}
+	    [ -f "$CACHE" ] && read -r OLD < "$CACHE" || OLD=0
+	    printf %d\\n "$SUM" > "$CACHE"
+	    printf %d\\n $(( SUM - OLD ))
+	}
+
+	RX=$(update /sys/class/net/[ew]*/statistics/rx_bytes)
+	TX=$(update /sys/class/net/[ew]*/statistics/tx_bytes)
+
+	TRAFFIC="$(printf " %4sB  %4sB\\n" $(numfmt --to=iec $RX $TX))"
+}
+
+update_airpods () {
+	AIRPODS="$(cat "$HOME/data/btdevices")"
+	AIRPODSNAME="$(bluetoothctl info "$AIRPODS" | grep -i Alias | head -1 | awk -F ':' '{print $2}' | sed 's/ //')"
+	BTSTATUS="$(bluetoothctl info "$AIRPODS" | grep -i Connected | awk '{print $2}')"
+
+	if [ "$BTSTATUS" = "yes" ]; then
+	    AIRPODS_STATUS=" $AIRPODSNAME"
+	else
+	    AIRPODS_STATUS="ﳌ not connected"
+	fi
+}
+
+update_volume () {
+	VOLUME="$(pulsemixer --get-volume | awk '{print $1}')"
+	VOLUME_UPDATE="墳 $VOLUME% -"
+}
+
+update_volume
+
+display () {
+	xsetroot -name " [ $TRAFFIC ] [ $WEATHER ] [ $VOLUME_UPDATE $AIRPODS_STATUS ] [ ﬙ $CPU% ] [  $MEMORY ] [ ﴖ $NVME ] [ $BATTERY ] $TIME"
+}
+
+trap	"update_volume;display"		"RTMIN"
+
+while true
+do
+  sleep 1 &
+  wait && {
+		# to update item ever n seconds with a offset of m
+		[ $((SEC % 5)) -eq 0 ] && update_network
+		[ $((SEC % 5)) -eq 0 ] && update_time
+		[ $((SEC % 15)) -eq 0 ] && update_cpu
+		[ $((SEC % 15)) -eq 0 ] && update_memory
+		[ $((SEC % 15)) -eq 0 ] && update_airpods
+		[ $((SEC % 15)) -eq 0 ] && update_disk
+		[ $((SEC % 60)) -eq 0 ] && update_battery
+		[ $((SEC % 120)) -eq 0 ] && update_weather
+
+		# how often the display updates ( 5 seconds )
+		[ $((SEC % 5)) -eq 0 ] && display
+		SEC=$((SEC + 1))
+	}
+done

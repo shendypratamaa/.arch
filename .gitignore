@@ -1,0 +1,7 @@
+wallpaper/
+plugins/
+nvim/.config/nvim/plugin/
+nvim/.config/nvim/lua/.luarc.json
+zsh/.config/zsh/.zcompdump
+.luarc.json
+state.yml

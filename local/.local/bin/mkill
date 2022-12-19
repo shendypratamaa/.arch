@@ -1,0 +1,13 @@
+#!/bin/sh
+
+set -e
+
+if [ "$1" = "" ]; then
+	kill -9 $(ps -u $USER -o pid,%cpu,%mem,comm | sort -b -k3 -r | sed -n '1!p' | dmenu -i -l 15 | awk '{print $1}' | tr '\n' ' ') 2>/dev/null
+	notify-send 'process has successfuly terminated !'
+fi
+
+if [ "$1" = '-f' ]; then
+	kill -9 $(ps -u $USER -o pid,%cpu,%mem,comm | sort -b -k3 -r | sed -n '1!p' | fzf -m --prompt='select process > ' | awk '{print $1}' | tr '\n' ' ') 2>/dev/null
+	notify-send 'process has successfuly terminated !'
+fi

@@ -1,0 +1,16 @@
+#!/bin/sh
+
+WALL_PATH="$HOME/Pictures/wallpaper"
+
+if [ -z "$1" ]; then
+    WALL="$(fd -p "$WALL_PATH" -L -t f | grep -iE "(jpg|png)" | shuf -n1)"
+else
+    WALL="$1"
+fi
+
+convert "$WALL" "$HOME/.cache/tmp/bg.jpg"
+xwallpaper --zoom "$HOME/.cache/tmp/bg.jpg"
+wal -c
+wal --saturate 0.5 -i "$HOME/.cache/tmp/bg.jpg"
+xdotool key super+F5
+suckless

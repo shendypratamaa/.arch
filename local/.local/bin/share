@@ -1,0 +1,23 @@
+#!/bin/sh
+
+TMP_LINK="$HOME/.cache/tmp/share/share_tmp.txt"
+
+FILE="$(fd . $HOME -L -t f  | dmenu -i -l 15)"
+curl -F "file=@$FILE" 0x0.st >> $TMP_LINK
+
+cat "$TMP_LINK" | tail -1 | xclip -sel c
+URL="$(cat "$TMP_LINK" | tail -1)"
+curl -I "$URL" > response_tmp.txt
+URL_RESPONSE="$(cat response_tmp.txt | head -1 | awk '{print $2}')"
+rm -f response_tmp.txt
+if [ "$URL_RESPONSE" = "200" ]; then
+    SHARE_LINK="$(cat "$TMP_LINK" | tail -1)"
+    echo "link share : " "$SHARE_LINK"
+    xdg-open "$SHARE_LINK"
+    cat "$TMP_LINK" | tail -1 | tr -d '\n' | xclip -sel c
+    notify-send 'great file successfuly uploaded !'
+    exit
+else
+    notify-send 'woops file failed to upload !'
+    exit
+fi

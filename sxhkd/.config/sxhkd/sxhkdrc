@@ -1,0 +1,24 @@
+# screen shoot
+super + ctrl + p
+    screenshoot c
+
+super + shift + p
+    screenshoot f
+
+# volume
+super + F12
+    volume -u; kill -34 "$(cat ~/.cache/pidofbar)"
+
+super + F11
+    volume -d; kill -34 "$(cat ~/.cache/pidofbar)"
+
+# brightness
+super + F1
+    brightness -d
+
+super + F2
+    brightness -u
+
+# transparent
+super + shift + t
+    transparent

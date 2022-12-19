@@ -1,0 +1,49 @@
+#!/bin/sh
+
+set -e
+
+ebooks_path="$HOME/Ebook"
+movies_path="$HOME/Videos"
+wall_path="$HOME/Pictures/wallpaper"
+
+__help() {
+	cat <<-_EOF_
+		Preview 🐣
+
+		prev [cmd] :
+		-ci --curimg open img in current directory
+		-w  --wall open wallpaper directory (SET YOUR PATH)
+		-v  --video open file video (SET YOUR PATH)
+		-e  --ebook open file ebook (SET YOUR PATH)
+
+		Requirement :
+		fzf:     fuzzy finder [https://github.com/junegunn/fzf]
+		fd:      find replacement [https://github.com/sharkdp/fd]
+		zathura: pdf [https://github.com/zegervdv/homebrew-zathura]
+		sxiv:    image previewer
+	_EOF_
+}
+
+if [ "$1" = "-ci" ] || [ "$1" = "--image" ]; then
+	filter=$(fd . -L -t f | grep -E '.*(jpg|png)' | sort -r | fzf -m --prompt='👉 open image > ')
+	sxiv $filter &
+elif [ "$1" = "-w" ] || [ "$1" = "--wall" ]; then
+	sxiv -t $wall_path &
+elif [ "$1" = "-v" ] || [ "$1" = "--video" ]; then
+	filter=$(fd . $movies_path -t f | grep -E '.*(mp4)' | sort -u | fzf -m --prompt='👉 open video > ')
+	mpv $filter
+elif [ "$1" = "-e" ] || [ "$1" = "--ebook" ]; then
+	filter=$(fd . "$ebooks_path" -t f | fzf -m --prompt="👉 open ebook > ")
+	zathura $filter &
+	exit
+elif [ "$1" = "-h" ]; then
+	__help
+	exit
+elif [ -n "$1" ]; then
+	echo "prev not found 🙅"
+	echo "prev --help for information 💁"
+	exit
+else
+	echo "prev not found 🙅"
+	echo "prev --help for information 💁"
+fi

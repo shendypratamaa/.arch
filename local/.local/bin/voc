@@ -1,0 +1,12 @@
+#!/bin/sh
+
+WORDS="$(dmenu -p "Words: " <&-)"
+MEAN="$(dmenu -p "Meaning: " <&-)"
+DATE="$(date +%c)"
+
+if [ "$WORDS" != "" ] && [ "$MEAN" != "" ]; then
+    echo "$WORDS -> $MEAN | added on : $DATE" >> "$HOME/data/en_id"
+    notify-send "Great ur awesome !"
+else
+    notify-send "Field words and meaning cannot be empty !"
+fi

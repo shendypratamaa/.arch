@@ -1,0 +1,13 @@
+#!/bin/sh
+
+setwall &
+[[ -f "$HOME/.config/x11/xresources" ]] && xrdb $HOME/.config/x11/xresources
+[[ -f "$HOME/.config/x11/xmodmap" ]] && xmodmap $HOME/.config/x11/xmodmap
+dwm_bar &
+xcompmgr &
+dunst &
+xset r rate 200 25 &
+sxhkd -c $HOME/.config/sxhkd/sxhkdrc &
+unclutter &
+
+exec dwm > /dev/null 2>&1

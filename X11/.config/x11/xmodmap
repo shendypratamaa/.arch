@@ -1,0 +1,18 @@
+!
+! Caps_Lock to Control_L
+!
+remove Lock = Caps_Lock
+remove Control = Control_L
+keysym Caps_Lock = Control_L
+keysym Control_L = Control_L
+add Lock = Caps_Lock
+add Control = Control_L
+
+!
+! Alt + hjkl = arrow
+!
+keycode 64 = Mode_switch
+keysym h = h H Left
+keysym l = l L Right
+keysym k = k K Up
+keysym j = j J Down

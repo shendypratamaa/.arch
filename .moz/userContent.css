@@ -1,0 +1,13 @@
+ /* @import url("./imports/some_file.css"); */
+
+@-moz-document domain(example.com) {
+    div#header {
+        background-image: none !important;
+    } 
+}
+
+/* add '[pdf]' next to links to PDF files */
+a[href$=".pdf"]:after {
+    font-size: smaller;
+    content: " [pdf]";
+}

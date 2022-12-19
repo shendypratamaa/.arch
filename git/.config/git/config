@@ -1,0 +1,11 @@
+[user]
+	name = shendypratamaa
+	email = shendypratamaa@gmail.com
+
+[merge]
+    conflictstyle = diff3
+
+[http]
+	postBuffer = 157286400
+[credential]
+	helper = cache

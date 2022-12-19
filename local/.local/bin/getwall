@@ -1,0 +1,35 @@
+#!/bin/sh
+
+set -e
+
+walldir="$HOME/Pictures/save"
+
+tagoptions="#4K\n#nature\n#minimalism\n#cyberpunk\n#digital art\n#science fiction"
+if [ -z "$1" ]; then
+	query=$(echo -e $tagoptions | dmenu -p "Search Wallpaper: " -i)
+else
+	query="${*:1}"
+fi
+
+sortingopts="date_added\nrelevance\nrandom\nviews\nfavorites\ntoplist"
+sorting=$(echo -e $sortingopts | dmenu -p "Start Order: " -i)
+
+pageslength="1\n2\n3\n4\n5"
+pages=$(echo -e $pageslength | dmenu -p "Total Pages: " -i)
+
+query=$(sed 's/#//g' <<<$query)
+query=$(sed 's/ /+/g' <<<$query)
+echo $query
+
+for i in $(seq 1 $pages); do
+	notify-send "Downloading Start!"
+	curl https://wallhaven.cc/api/v1/search\?atleast\=1920x1080\&ratios\=16x9\&sorting\=$sorting\&q\=$query\&page\=$i >tmp.txt
+	page=$(cat tmp.txt | jq '.' | grep -Eoh "https:\/\/w\.wallhaven.cc\/full\/.*(jpg|png)\b")
+	wget -nc -P $walldir $page --no-check-certificate
+done
+
+notify-send 'Download successfully!'
+
+rm tmp.txt
+sxiv -t $walldir/*
+mv -f $walldir/* ~/Pictures/wallpaper
