@@ -15,6 +15,7 @@ directory=(
    sxhkd
    local
    lf
+   picom
 )
 
 initfile=(

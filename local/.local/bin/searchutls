@@ -26,7 +26,7 @@ if [ "$SELECT" = "google" ] && [ "$BROWSERISOPEN" = "$BROWSERISOPEN" ]; then
 	URL="https://www.google.com/search?q=$DMENU_QUERY"
 	xdg-open "$URL"
 elif [ "$SELECT" = "youtube" ] && [ "$BROWSERISOPEN" = "$BROWSERISOPEN" ]; then
-	OPTS="Channel\nContent"
+	OPTS="Content\nChannel"
 	SELECT="$(echo -e "$OPTS" | dmenu -p "select options: " -i)"
 	if [ "$SELECT" = "Channel" ]; then
 		DMENU_QUERY=$(dmenu -p "search channel name : " <&-)

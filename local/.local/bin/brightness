@@ -26,7 +26,7 @@ manual_brightness() {
 }
 
 increase_brightness() {
-     if [ "$CURR_VAL" -lt "$MAX_VAL" ]; then
+     if [ "$CURR_VAL" -lt "$MAX_VAL" ] && [ "$CURR_VAL" -ne "$MAX_VAL" ]; then
         NEW_VALUE="$(( "$CURR_VAL" + "$VALUE" ))"
         set_brightness "$NEW_VALUE"
      fi

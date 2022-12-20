@@ -4,6 +4,8 @@ WALL_PATH="$HOME/pictures/wallpaper"
 
 if [ -z "$1" ]; then
     WALL="$(find "$WALL_PATH/" | grep -iE '(jpg|png)' | shuf -n1)"
+elif [ "$1" = "default" ]; then
+    WALL="$HOME/pictures/wallpaper/bg.jpg"
 else
     WALL="$1"
 fi

@@ -1,10 +1,10 @@
 #!/bin/sh
 
-setwall "$HOME/pictures/wallpaper/bg.jpg" &
+setwall default &
 [[ -f "$HOME/.config/x11/xresources" ]] && xrdb -merge -I$HOME "$HOME/.config/x11/xresources"
 [[ -f "$HOME/.config/x11/xmodmap" ]] && xmodmap "$HOME/.config/x11/xmodmap"
 dwm_bar &
-xcompmgr &
+picom &
 dunst &
 xset r rate 200 25 &
 sxhkd -c $HOME/.config/sxhkd/sxhkdrc &

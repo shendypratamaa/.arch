@@ -51,9 +51,14 @@ cmd bulk-rename ${{
     lf -remote "send $id unselect"
 }}
 
+cmd restore-trash ${{
+    trash-restore
+}}
+
 cmd mvdir %set -f; printf " Directory Name: "; read ans; mkdir -- "$ans"; mv -- $fx "$ans"
 cmd mkdir %set -f; printf " Directory Name: "; read ans; mkdir -p $ans
 cmd mkfile %set -f; printf " File Name: "; read ans; touch $ans
+cmd trash %set -f; printf " Are you want to delete this [y/n] "; read ans; [ $ans = "y" ] && trash-put $fx
 cmd set_wallpaper %set -f; setwall $fx && notify-send "Wallpaper information" "Please restart your terminal :) "
 
 # clear key for recieve multiple keymap
@@ -66,13 +71,14 @@ map c
 # chain function into key
 map rn rename
 map rb bulk-rename
+map rt restore-trash
 map mf mkfile
 map md mkdir
 map mv mvdir
 
 # basic key
 map . set hidden!
-# map D trash
+map D trash
 map p paste
 map x cut
 map y copy

@@ -1,9 +1,9 @@
 #!/bin/sh
 
-if pgrep xcompmgr &>/dev/null; then
-    pkill xcompmgr &
+if pgrep picom &>/dev/null; then
+    pkill picom &
 else
-    xcompmgr &
+    picom &
 fi
 
 exit 0

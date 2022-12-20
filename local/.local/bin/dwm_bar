@@ -69,11 +69,14 @@ update_airphone () {
 	DEVICE="$(cat "$HOME/data/btdevices")"
 	DEVICENAME="$(bluetoothctl info "$DEVICE" | grep -i Alias | head -1 | awk -F ':' '{print $2}' | sed 's/ //')"
 	BTSTATUS="$(bluetoothctl info "$DEVICE" | grep -i Connected | awk '{print $2}')"
+	HEADPHONESTATUS="$(pacmd list-sinks | grep -i head | head -1 | awk -F '=' '{print $2}' | sed 's/"/ /' | sed 's/"$/ /' | cut -d " " -f3)"
 
 	if [ "$BTSTATUS" = "yes" ]; then
 	    DEVICE_STATUS=" $DEVICENAME"
+	elif [ "$HEADPHONESTATUS" = "Headphones" ]; then
+	    DEVICE_STATUS=" Headphone Connected"
 	else
-	    DEVICE_STATUS="ﳌ not connected"
+	    DEVICE_STATUS="ﳌ !Connected"
 	fi
 }
 
