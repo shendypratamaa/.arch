@@ -2,9 +2,9 @@
 
 set -e
 
-ebooks_path="$HOME/Ebook"
-movies_path="$HOME/Videos"
-wall_path="$HOME/Pictures/wallpaper"
+ebooks_path="$HOME/ebook"
+movies_path="$HOME/video"
+wall_path="$HOME/pictures/wallpaper"
 
 __help() {
 	cat <<-_EOF_

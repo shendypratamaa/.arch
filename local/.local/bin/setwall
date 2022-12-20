@@ -1,6 +1,6 @@
 #!/bin/sh
 
-WALL_PATH="$HOME/Pictures/wallpaper"
+WALL_PATH="$HOME/pictures/wallpaper"
 
 if [ -z "$1" ]; then
     WALL="$(find "$WALL_PATH/" | grep -iE '(jpg|png)' | shuf -n1)"

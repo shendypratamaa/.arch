@@ -1,0 +1,92 @@
+#!/bin/sh
+
+# img previewer
+set previewer lf-preview
+set cleaner lf-cleaner
+
+# prompt
+set promptfmt "[\033[32;1m%u\033[0m]:[\033[34;1m%d\033[0m\033[1m%f\033[0m]"
+
+# settings
+set hidden
+set drawbox
+set icons
+set ignorecase
+set relativenumber
+set sortby= 'natural'; set info size
+set scrolloff 10
+
+# custom function
+cmd open ${{
+    case $(file --mime-type -Lb $f) in
+        text/*) $EDITOR $fx;;
+        video/*) "mpv" $fx ;;
+        image/*) "sxiv" $fx;;
+        application/pdf) "zathura" $fx ;;
+        *) for f in $fx; do setsid $OPENER $f > /dev/null 2> /dev/null & done;;
+    esac
+}}
+
+cmd bulk-rename ${{
+    old="$(mktemp)"
+    new="$(mktemp)"
+    if [ -n "$fs" ]; then
+        fs="$(basename -a $fs)"
+    else
+        fs="$(ls)"
+    fi
+    printf '%s\n' "$fs" >"$old"
+    printf '%s\n' "$fs" >"$new"
+    $EDITOR "$new"
+    [ "$(wc -l < "$new")" -ne "$(wc -l < "$old")" ] && exit
+    paste "$old" "$new" | while IFS= read -r names; do
+        src="$(printf '%s' "$names" | cut -f1)"
+        dst="$(printf '%s' "$names" | cut -f2)"
+        if [ "$src" = "$dst" ] || [ -e "$dst" ]; then
+            continue
+        fi
+        mv -- "$src" "$dst"
+    done
+    rm -- "$old" "$new"
+    lf -remote "send $id unselect"
+}}
+
+cmd mvdir %set -f; printf " Directory Name: "; read ans; mkdir -- "$ans"; mv -- $fx "$ans"
+cmd mkdir %set -f; printf " Directory Name: "; read ans; mkdir -p $ans
+cmd mkfile %set -f; printf " File Name: "; read ans; touch $ans
+cmd set_wallpaper %set -f; setwall $fx && notify-send "Wallpaper information" "Please restart your terminal :) "
+
+# clear key for recieve multiple keymap
+map g
+map m
+map r
+map e
+map c
+
+# chain function into key
+map rn rename
+map rb bulk-rename
+map mf mkfile
+map md mkdir
+map mv mvdir
+
+# basic key
+map . set hidden!
+# map D trash
+map p paste
+map x cut
+map y copy
+map cc clear
+map <enter> open
+map "<c-\>" shell
+
+# change wallpaper
+map cw set_wallpaper
+
+# bookmaks key
+map gh cd ~
+map gd cd ~/.arch
+map gc cd ~/.config
+map gn cd ~/.config/nvim
+map gp cd ~/pictures
+map ge cd ~/ebook

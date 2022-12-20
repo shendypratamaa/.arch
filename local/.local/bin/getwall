@@ -2,9 +2,9 @@
 
 set -e
 
-walldir="$HOME/Pictures/save"
+walldir="$HOME/pictures/save"
 
-tagoptions="#4K\n#nature\n#minimalism\n#cyberpunk\n#digital art\n#science fiction"
+tagoptions="#4K\n#nature\n#minimalism\n#cyberpunk\n#futuristic\n#landescape\n##digital art\n#science fiction"
 if [ -z "$1" ]; then
 	query=$(echo -e $tagoptions | dmenu -p "Search Wallpaper: " -i)
 else
@@ -32,4 +32,4 @@ notify-send 'Download successfully!'
 
 rm tmp.txt
 sxiv -t $walldir/*
-mv -f $walldir/* ~/Pictures/wallpaper
+mv -f $walldir/* ~/pictures/wallpaper

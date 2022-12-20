@@ -19,25 +19,22 @@ compinit -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
 compinit -d $XDG_CACHE_HOME/zsh/zcompdump
 _comp_options+=(globdots)
 
-# ZSH
-if [[ "$SHELL" = "zsh" ]] || [[ "$SHELL" = "/usr/bin/zsh" ]]; then
-    source /usr/share/fzf/completion.zsh
-    source /usr/share/fzf/key-bindings.zsh
-    fpath=("$HOME/.config/zsh/plugins/zsh-completions/src" $fpath)
-    source "$HOME/.config/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
-    source "$HOME/.config/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+source /usr/share/fzf/completion.zsh
+source /usr/share/fzf/key-bindings.zsh
+fpath=("$HOME/.config/zsh/plugins/zsh-completions/src" $fpath)
+source "$HOME/.config/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+source "$HOME/.config/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
-    if [[ -d "$HOME/.config/zsh/plugins/zsh-syntax-highlighting" ]]; then
-        typeset -A ZSH_HIGHLIGHT_STYLES
-        ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=124'
-        ZSH_HIGHLIGHT_STYLES[alias]='fg=048'
-        ZSH_HIGHLIGHT_STYLES[global-alias]='fg=048'
-        ZSH_HIGHLIGHT_STYLES[suffix-alias]='fg=048'
-        ZSH_HIGHLIGHT_STYLES[builtin]='fg=048'
-        ZSH_HIGHLIGHT_STYLES[command]='fg=048'
-        ZSH_HIGHLIGHT_STYLES[function]='fg=048'
-        ZSH_HIGHLIGHT_STYLES[command]='fg=048'
-    fi
+if [[ -d "$HOME/.config/zsh/plugins/zsh-syntax-highlighting" ]]; then
+    typeset -A ZSH_HIGHLIGHT_STYLES
+    ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=124'
+    ZSH_HIGHLIGHT_STYLES[alias]='fg=048'
+    ZSH_HIGHLIGHT_STYLES[global-alias]='fg=048'
+    ZSH_HIGHLIGHT_STYLES[suffix-alias]='fg=048'
+    ZSH_HIGHLIGHT_STYLES[builtin]='fg=048'
+    ZSH_HIGHLIGHT_STYLES[command]='fg=048'
+    ZSH_HIGHLIGHT_STYLES[function]='fg=048'
+    ZSH_HIGHLIGHT_STYLES[command]='fg=048'
 fi
 
 # basic
@@ -63,13 +60,10 @@ alias ufw="sudo ufw"
 alias systemctl="sudo systemctl"
 alias npml="npm list --location=global --depth=0"
 alias ppath="echo $PATH | tr ':' '\n'"
+alias lf="lfrun"
 
 # repo check
 alias gh="xdg-open \`git remote -v | grep fetch | awk '{print \$2}' | sed 's/git@/http:\/\//' | sed 's/com:/com\//'\`| head -n1"
-
-# music - video
-alias msv="pipe-viewer --player=mpv"
-alias msc="pipe-viewer -n --no-video-info --player=mpvt"
 
 # NAV DIR
 alias cdc="cd ~/.config"

@@ -14,6 +14,7 @@ directory=(
    dunst
    sxhkd
    local
+   lf
 )
 
 initfile=(
@@ -26,6 +27,8 @@ install() {
    if [[ -d "$HOME/.arch" ]]; then
 
       cd "$HOME/.arch" && stow -v "${directory[@]}"
+
+      ln -sfv "$HOME/.arch/user-dirs.dirs" "$HOME/.config"
 
       for file in "${initfile[@]}"
       do

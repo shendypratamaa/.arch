@@ -1,8 +1,8 @@
 #!/bin/sh
 
-TMP_LINK="$HOME/.cache/tmp/share/share_tmp.txt"
+TMP_LINK="$HOME/.cache/tmp/share_tmp.txt"
 
-FILE="$(fd . $HOME -L -t f  | dmenu -i -l 15)"
+FILE="$(fd . $HOME -L -t f  | dmenu -i -l 15 -p "select file: ")"
 curl -F "file=@$FILE" 0x0.st >> $TMP_LINK
 
 cat "$TMP_LINK" | tail -1 | xclip -sel c

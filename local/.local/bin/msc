@@ -1,0 +1,15 @@
+#!/bin/sh
+
+OPTS="no video\nwith video"
+SELECT="$(echo -e "$OPTS" | dmenu -p "select options :" -i)"
+SEARCH="$(dmenu -p "song name : " <&-)"
+
+if [ "$SELECT" = "no video" ]; then
+    NOVID="--player=mpvt "
+    PLAYER="pipe-viewer -n --no-video-info --player=mpvt $@"
+    $TERMINAL $PLAYER "$SEARCH"
+elif [ "$SELECT" = "with video" ]; then
+    WVID="--player=mvp"
+    PLAYER="pipe-viewer --player=mpv $@"
+    $TERMINAL $PLAYER "$SEARCH"
+fi

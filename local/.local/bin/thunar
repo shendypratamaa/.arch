@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# prevent thunar showing error GPU rending
+# because this is asahi linux
+
+/usr/bin/thunar 2>/dev/null &

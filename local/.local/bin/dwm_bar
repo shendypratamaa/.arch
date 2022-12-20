@@ -65,15 +65,15 @@ update_network () {
 	TRAFFIC="$(printf " %4sB  %4sB\\n" $(numfmt --to=iec $RX $TX))"
 }
 
-update_airpods () {
-	AIRPODS="$(cat "$HOME/data/btdevices")"
-	AIRPODSNAME="$(bluetoothctl info "$AIRPODS" | grep -i Alias | head -1 | awk -F ':' '{print $2}' | sed 's/ //')"
-	BTSTATUS="$(bluetoothctl info "$AIRPODS" | grep -i Connected | awk '{print $2}')"
+update_airphone () {
+	DEVICE="$(cat "$HOME/data/btdevices")"
+	DEVICENAME="$(bluetoothctl info "$DEVICE" | grep -i Alias | head -1 | awk -F ':' '{print $2}' | sed 's/ //')"
+	BTSTATUS="$(bluetoothctl info "$DEVICE" | grep -i Connected | awk '{print $2}')"
 
 	if [ "$BTSTATUS" = "yes" ]; then
-	    AIRPODS_STATUS=" $AIRPODSNAME"
+	    DEVICE_STATUS=" $DEVICENAME"
 	else
-	    AIRPODS_STATUS="ﳌ not connected"
+	    DEVICE_STATUS="ﳌ not connected"
 	fi
 }
 
@@ -85,7 +85,7 @@ update_volume () {
 update_volume
 
 display () {
-	xsetroot -name " [ $TRAFFIC ] [ $WEATHER ] [ $VOLUME_UPDATE $AIRPODS_STATUS ] [ ﬙ $CPU% ] [  $MEMORY ] [ ﴖ $NVME ] [ $BATTERY ] $TIME"
+	xsetroot -name " [ $TRAFFIC ] [ $WEATHER ] [ $VOLUME_UPDATE $DEVICE_STATUS ] [ ﬙ $CPU% ] [  $MEMORY ] [ ﴖ $NVME ] [ $BATTERY ] $TIME"
 }
 
 trap	"update_volume;display"		"RTMIN"
@@ -97,7 +97,7 @@ do
 		# to update item ever n seconds with a offset of m
 		[ $((SEC % 5)) -eq 0 ] && update_network
 		[ $((SEC % 5)) -eq 0 ] && update_time
-		[ $((SEC % 10)) -eq 0 ] && update_airpods
+		[ $((SEC % 10)) -eq 0 ] && update_airphone
 		[ $((SEC % 15)) -eq 0 ] && update_cpu
 		[ $((SEC % 15)) -eq 0 ] && update_memory
 		[ $((SEC % 15)) -eq 0 ] && update_disk
