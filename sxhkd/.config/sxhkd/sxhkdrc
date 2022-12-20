@@ -12,12 +12,19 @@ super + F12
 super + F11
     volume -d; kill -34 "$(cat ~/.cache/pidofbar)"
 
-# brightness
+# screen brightness
 super + F1
     brightness -d
 
 super + F2
     brightness -u
+
+# keyboard brightness
+super + control + equal
+    kb-brightness -u
+
+super + control + minus
+    kb-brightness -d
 
 # transparent
 super + shift + t

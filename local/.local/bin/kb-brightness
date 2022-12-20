@@ -1,0 +1,51 @@
+#!/bin/sh
+
+CURRENT_KBBRIGHTNESS=$(cat /sys/class/leds/kbd_backlight/brightness)
+MAX_KBBRIGHTNESS=$(cat /sys/class/leds/kbd_backlight/max_brightness)
+CHANGE_VAL="/sys/class/leds/kbd_backlight/brightness"
+
+VALUE=$(( "$MAX_KBBRIGHTNESS" / 10 ))
+
+set_kbbrightness() {
+    echo "$@" | sudo tee "$CHANGE_VAL" >/dev/null
+}
+
+manual_kbbrightness() {
+    if [ "$1" = "" ]; then
+        D_VAL="0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n"
+        S_VAL=$(echo -e $D_VAL | dmenu -p "Brightness value :" -i)
+        NEW_VALUE="$(( "$VALUE" * "$S_VAL" ))"
+        set_kbbrightness "$NEW_VALUE"
+    elif [ "$1" -lt 10 ]; then
+        NEW_VALUE="$(( "$VALUE" * "$1" ))"
+        set_kbbrightness "$NEW_VALUE"
+    else
+        notify-send 'Keyboard brightness value range [1..9]'
+    fi
+}
+
+increase_kbbrightness() {
+     if [ "$CURRENT_KBBRIGHTNESS" -lt "$MAX_KBBRIGHTNESS" ]; then
+        NEW_VALUE="$(( "$CURRENT_KBBRIGHTNESS" + "$VALUE" ))"
+        set_kbbrightness "$NEW_VALUE"
+     fi
+}
+
+decrease_kbbrightness() {
+    if [ "$CURRENT_KBBRIGHTNESS" -gt 0 ]; then
+        if [ "$CURRENT_KBBRIGHTNESS" = 5 ]; then
+            NEW_VALUE="$(( "$CURRENT_KBBRIGHTNESS" - "$CURRENT_KBBRIGHTNESS" ))"
+            set_kbbrightness "$NEW_VALUE" 2> /dev/null
+        fi
+        NEW_VALUE="$(( "$CURRENT_KBBRIGHTNESS" - "$VALUE" ))"
+        set_kbbrightness "$NEW_VALUE" 2> /dev/null
+    fi
+}
+
+if [ "$1" = "-u" ]; then
+    increase_kbbrightness "${@:1}"
+elif [ "$1" = "-d" ]; then
+    decrease_kbbrightness "${@:1}"
+else
+    manual_kbbrightness "${@:1}"
+fi
