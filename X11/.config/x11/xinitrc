@@ -8,6 +8,6 @@ picom &
 dunst &
 xset r rate 200 25 &
 sxhkd -c $HOME/.config/sxhkd/sxhkdrc &
-unclutter &
+unclutter -idle 1 &
 
 exec dwm > /dev/null 2>&1

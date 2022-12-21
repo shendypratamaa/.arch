@@ -1,10 +1,10 @@
 #!/bin/sh
 
 if [ "$1" = "f" ]; then
-    maim -o "$HOME/pictures/screenshoot/$(date +%s).png"
+    maim -o "$HOME/pictures/screenshoot/$(date +%s).png" 2>/dev/null
     notify-send 'Screenshoot Successfuly!'
 elif [ "$1" = "c" ]; then
-    maim -o --select | tee "$HOME/pictures/screenshoot/$(date +%s).png" | xclip -selection c -t image/png
+    maim -o --select | tee "$HOME/pictures/screenshoot/$(date +%s).png" | xclip -selection c -t image/png 2>/dev/null
     notify-send 'Screenshoot Successfuly!'
 else
     notify-send 'Execute Screenshoot: [f/c]'

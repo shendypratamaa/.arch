@@ -65,15 +65,18 @@ update_network () {
 	TRAFFIC="$(printf " %4sB  %4sB\\n" $(numfmt --to=iec $RX $TX))"
 }
 
-update_airphone () {
-	DEVICE="$(cat "$HOME/data/btdevices")"
-	DEVICENAME="$(bluetoothctl info "$DEVICE" | grep -i Alias | head -1 | awk -F ':' '{print $2}' | sed 's/ //')"
-	BTSTATUS="$(bluetoothctl info "$DEVICE" | grep -i Connected | awk '{print $2}')"
-	HEADPHONESTATUS="$(pacmd list-sinks | grep -i head | head -1 | awk -F '=' '{print $2}' | sed 's/"/ /' | sed 's/"$/ /' | cut -d " " -f3)"
+update_devices_connection () {
+	DEVICE="$HOME/data/btdevices"
+	MAC_ADDR="$(cat "$DEVICE" | head -1 | awk '{print $1}')"
 
-	if [ "$BTSTATUS" = "yes" ]; then
-	    DEVICE_STATUS=" $DEVICENAME"
-	elif [ "$HEADPHONESTATUS" = "Headphones" ]; then
+	DEVICE_NAME="$(bluetoothctl info "$MAC_ADDR" | grep -i Alias | head -1 | awk -F ':' '{print $2}' | sed 's/ //')"
+	DEVICE_STATUS="$(bluetoothctl info "$MAC_ADDR" | grep -i Connected | awk '{print $2}')"
+
+	HEADPHONE_STATUS="$(pacmd list-sinks | grep -i head | head -1 | awk -F '=' '{print $2}' | sed 's/"/ /' | sed 's/"$/ /' | cut -d " " -f3)"
+
+	if [ "$DEVICE_STATUS" = "yes" ]; then
+	    DEVICE_STATUS=" $DEVICE_NAME"
+	elif [ "$HEADPHONE_STATUS" = "Headphones" ]; then
 	    DEVICE_STATUS=" Headphone Connected"
 	else
 	    DEVICE_STATUS="ﳌ !Connected"
@@ -100,8 +103,8 @@ do
 		# to update item ever n seconds with a offset of m
 		[ $((SEC % 5)) -eq 0 ] && update_network
 		[ $((SEC % 5)) -eq 0 ] && update_time
-		[ $((SEC % 10)) -eq 0 ] && update_airphone
 		[ $((SEC % 10)) -eq 0 ] && update_battery
+		[ $((SEC % 10)) -eq 0 ] && update_devices_connection
 		[ $((SEC % 15)) -eq 0 ] && update_cpu
 		[ $((SEC % 15)) -eq 0 ] && update_memory
 		[ $((SEC % 15)) -eq 0 ] && update_disk

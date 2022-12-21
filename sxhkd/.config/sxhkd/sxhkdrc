@@ -1,9 +1,13 @@
 # screen shoot
-super + ctrl + p
+super + shift + c
     screenshoot c
 
-super + shift + p
+super + shift + f
     screenshoot f
+
+# transparent
+super + shift + t
+    transparent
 
 # volume
 super + F12
@@ -20,12 +24,8 @@ super + F2
     brightness -u
 
 # keyboard brightness
-super + control + equal
+super + F4
     kb-brightness -u
 
-super + control + minus
+super + F3
     kb-brightness -d
-
-# transparent
-super + shift + t
-    transparent

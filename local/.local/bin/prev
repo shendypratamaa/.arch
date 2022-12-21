@@ -26,16 +26,15 @@ __help() {
 
 if [ "$1" = "-ci" ] || [ "$1" = "--image" ]; then
 	filter=$(fd . -L -t f | grep -E '.*(jpg|png)' | sort -r | fzf -m --prompt='👉 open image > ')
-	sxiv $filter &
+	setsid -f sxiv $filter 2>/dev/null
 elif [ "$1" = "-w" ] || [ "$1" = "--wall" ]; then
-	sxiv -t $wall_path &
+	setsid -f sxiv -t $wall_path 2>/dev/null
 elif [ "$1" = "-v" ] || [ "$1" = "--video" ]; then
 	filter=$(fd . $movies_path -t f | grep -E '.*(mp4)' | sort -u | fzf -m --prompt='👉 open video > ')
-	mpv $filter
+	setsid -f mpv $filter
 elif [ "$1" = "-e" ] || [ "$1" = "--ebook" ]; then
 	filter=$(fd . "$ebooks_path" -t f | fzf -m --prompt="👉 open ebook > ")
-	zathura $filter &
-	exit
+	 setsid -f zathura $filter
 elif [ "$1" = "-h" ]; then
 	__help
 	exit
