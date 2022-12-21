@@ -1,12 +1,15 @@
 #!/bin/sh
 
 URL="https://www.youtube.com"
+
 CHANNEL="$(cat "$HOME/data/open_channel")"
+SELECT_CHANNEL="$(echo "$CHANNEL" | dmenu -i -l 10 -p "select channel: ")"
 
-SELECT="$(echo "$CHANNEL" | dmenu -i -l 10 -p "select channel: ")"
+OPTS="featured\nvideos\nplaylists\nshorts\nstreams\nabout"
+SELECT_OPTS="$(echo -e "$OPTS" | dmenu -p "select options: " -i)"
 
-if [ "$SELECT" != "" ]; then
-    xdg-open "$URL/$SELECT"
+if [ "$SELECT_CHANNEL" != "" ] && [ "$SELECT_OPTS" != "" ]; then
+    xdg-open "$URL/$SELECT_CHANNEL/$SELECT_OPTS"
 else
     notify-send "No Channel Selected !"
 fi

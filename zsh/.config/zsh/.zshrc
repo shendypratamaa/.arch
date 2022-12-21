@@ -63,7 +63,7 @@ alias ppath="echo $PATH | tr ':' '\n'"
 alias lf="lfrun"
 
 # repo check
-alias gh="firefox \`git remote -v | grep fetch | awk '{print \$2}' | sed 's/git@/http:\/\//' | sed 's/com:/com\//'\`| head -n1"
+alias gh="xdg-open \`git remote -v | grep fetch | awk '{print \$2}' | sed 's/git@/http:\/\//' | sed 's/com:/com\//'\`| head -n1"
 
 # NAV DIR
 alias cdc="cd ~/.config"
