@@ -5,7 +5,6 @@ directory=(
    git
    lazygit
    neofetch
-   nvim
    sxiv
    wallpaper
    zathura
@@ -16,6 +15,7 @@ directory=(
    local
    lf
    picom
+   pipe
 )
 
 initfile=(
