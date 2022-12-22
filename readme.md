@@ -8,3 +8,8 @@
 
 [Editor] \
 [nvim](https://github.com/shendypratamaa/nvim-base)
+
+<hr>
+
+[installer] \
+[shendypratamaa/asahi-install](https://github.com/shendypratamaa/asahi-install)
