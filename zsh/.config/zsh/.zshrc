@@ -186,3 +186,6 @@ export MANPAGER="sh -c 'col -bx | bat -l=man '"
 
 # GO
 export GOPATH="$XDG_DATA_HOME/go"
+
+# GNUPG
+export GNUPGHOME="$XDG_DATA_HOME/gnupg"

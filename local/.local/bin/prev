@@ -2,7 +2,7 @@
 
 set -e
 
-ebooks_path="$HOME/ebook"
+ebooks_path="$HOME/docs/ebook"
 movies_path="$HOME/video"
 wall_path="$HOME/pictures/wallpaper"
 
