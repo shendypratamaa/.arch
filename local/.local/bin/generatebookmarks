@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-firefoxbookmarks() {
-  cp ~/.mozilla/firefox/l0l3ju0w.default-release/places.sqlite ~/.cache/tmp && \
-  sqlite3 -line ~/.cache/tmp/places.sqlite 'select moz_places.url, moz_bookmarks.title from moz_bookmarks join moz_places on moz_bookmarks.fk = moz_places.id' && \
-  rm -f ~/.cache/tmp/places.sqlite
-}
-
-firefoxbookmarks | grep -i url | awk -F '=' '{print $2}' | sed 's/ //g' > $HOME/.cache/tmp/bookmarks_url
