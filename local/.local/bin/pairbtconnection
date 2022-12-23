@@ -22,9 +22,9 @@ devices_connected() {
 
 		if [ "$CONNECTION_STATUS" = "successful" ]; then
 			MAC_INFO="$(cat "$DEVICES_DATA" | head -2 | tail -1 | awk -F '"' '{print $2}')"
-			notify-send "⌨️  $MAC_INFO Connected"
+			notify-send "⌨️ $MAC_INFO Connected"
 		else
-			notify-send "⌨️  Shendy's Keychone Not Connected!"
+			notify-send "⌨️ Shendy's Keychone Not Connected!"
 		fi
 	elif [ "$SELECT_DEVICES" = "apple magic mouse" ]; then
 		MAC_ADDR="$(cat "$DEVICES_DATA" | tail -1 | awk '{print $1}')"

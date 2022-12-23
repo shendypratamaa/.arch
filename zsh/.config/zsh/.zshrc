@@ -181,6 +181,16 @@ alias vd="cd ~ && cd \$($FZF_DEFAULT_COMMAND $EXCLUDE_FZF -d 7 --type d | fzf --
 alias vn="$FZF_DEFAULT_COMMAND $EXCLUDE_FZF -d 7 --type f | fzf -m --preview 'bat --style=plain --color=always --line-range :500 {}' | xargs -r nvim"
 ###################### FZF ##############################
 
+# TMUX
+alias tmuxconf="nvim ~/.config/tmux/tmux.conf"
+alias ide="tmux split-window -h -p 35 && tmux select-pane -t 0"
+alias ta='tmux attach -t'
+alias tad='tmux attach -d -t'
+alias ts='tmux new-session -s'
+alias tl='tmux list-sessions'
+alias tksv='tmux kill-server'
+alias tkss='tmux kill-session -t'
+
 # MANPAGE
 export MANPAGER="sh -c 'col -bx | bat -l=man '"
 
