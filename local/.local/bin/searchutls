@@ -18,75 +18,85 @@ SEARCH=(
 
 echo "${SEARCH[@]}" > "$HOME/data/search_url"
 
-DATA=$(cat "$HOME/data/search_url" | tr ' ' '\n' | sort)
-SELECT=$(echo "$DATA" | dmenu -i -l 10 -p "where you want to go: ")
+OPTS_MENU="search\nbookmarks"
+SELECT_MENU=$(echo -e "$OPTS_MENU" | dmenu -p "select menu: " -i)
 
-if [ "$SELECT" = "google" ] && [ "$BROWSERISOPEN" = "$BROWSERISOPEN" ]; then
-	DMENU_QUERY=$(dmenu -p "search something : " <&-)
-	URL="https://www.google.com/search?q=$DMENU_QUERY"
-	xdg-open "$URL"
-elif [ "$SELECT" = "youtube" ] && [ "$BROWSERISOPEN" = "$BROWSERISOPEN" ]; then
-	OPTS="Content\nChannel"
-	SELECT="$(echo -e "$OPTS" | dmenu -p "select options: " -i)"
-	if [ "$SELECT" = "Channel" ]; then
-		DMENU_QUERY=$(dmenu -p "search channel name : " <&-)
-		URL="https://youtube.com/@$DMENU_QUERY"
+if [ "$SELECT_MENU" = "search" ]; then
+	DATA=$(cat "$HOME/data/search_url" | tr ' ' '\n' | sort)
+	SELECT=$(echo "$DATA" | dmenu -i -l 10 -p "where you want to go: ")
+
+	if [ "$SELECT" = "google" ] && [ "$BROWSERISOPEN" = "$BROWSERISOPEN" ]; then
+		DMENU_QUERY=$(dmenu -p "search something : " <&-)
+		URL="https://www.google.com/search?q=$DMENU_QUERY"
 		xdg-open "$URL"
-	elif [ "$SELECT" = "Content" ]; then
-		DMENU_QUERY=$(dmenu -p "search content : " <&-)
-		URL="https://youtube.com/results?search_query=$DMENU_QUERY"
+	elif [ "$SELECT" = "youtube" ] && [ "$BROWSERISOPEN" = "$BROWSERISOPEN" ]; then
+		OPTS="Content\nChannel"
+		SELECT="$(echo -e "$OPTS" | dmenu -p "select options: " -i)"
+		if [ "$SELECT" = "Channel" ]; then
+			DMENU_QUERY=$(dmenu -p "search channel name : " <&-)
+			URL="https://youtube.com/@$DMENU_QUERY"
+			xdg-open "$URL"
+		elif [ "$SELECT" = "Content" ]; then
+			DMENU_QUERY=$(dmenu -p "search content : " <&-)
+			URL="https://youtube.com/results?search_query=$DMENU_QUERY"
+			xdg-open "$URL"
+		fi
+	elif [ "$SELECT" = "stackoverflow" ] && [ "$BROWSERISOPEN" = "$BROWSERISOPEN" ]; then
+		DMENU_QUERY=$(dmenu -p "search something : " <&-)
+		URL="https://stackoverflow.com/search?q=$DMENU_QUERY"
 		xdg-open "$URL"
-	fi
-elif [ "$SELECT" = "stackoverflow" ] && [ "$BROWSERISOPEN" = "$BROWSERISOPEN" ]; then
-	DMENU_QUERY=$(dmenu -p "search something : " <&-)
-	URL="https://stackoverflow.com/search?q=$DMENU_QUERY"
-	xdg-open "$URL"
-elif [ "$SELECT" = "reddit" ] && [ "$BROWSERISOPEN" = "$BROWSERISOPEN" ]; then
-	OPTS="Content\nSubreddit"
-	SELECT=$(echo -e "$OPTS" | dmenu -p "select options: " -i)
-	DMENU_QUERY=$(dmenu -p "search something : " <&-)
-	if [ "$SELECT" = "Content" ]; then
-		URL="https://www.reddit.com/search/?q=$DMENU_QUERY"
+	elif [ "$SELECT" = "reddit" ] && [ "$BROWSERISOPEN" = "$BROWSERISOPEN" ]; then
+		OPTS="Content\nSubreddit"
+		SELECT=$(echo -e "$OPTS" | dmenu -p "select options: " -i)
+		DMENU_QUERY=$(dmenu -p "search something : " <&-)
+		if [ "$SELECT" = "Content" ]; then
+			URL="https://www.reddit.com/search/?q=$DMENU_QUERY"
+			xdg-open "$URL"
+		elif [ "$SELECT" = "Subreddit" ]; then
+			URL="https://www.reddit.com/r/$DMENU_QUERY"
+			xdg-open "$URL"
+		fi
+	elif [ "$SELECT" = "github" ] && [ "$BROWSERISOPEN" = "$BROWSERISOPEN" ]; then
+		USERNAME=$(dmenu -p "search username : " <&-)
+		REPONAME=$(dmenu -p "search reponame : " <&-)
+		if [ "$USERNAME" = "" ] || [ "$REPONAME" = "" ]; then
+			URL="https://github.com/search?q="
+			xdg-open "$URL"
+		else
+			URL="https://github.com/$USERNAME?tab=repositories&q=$REPONAME"
+			xdg-open "$URL"
+		fi
+	elif [ "$SELECT" = "devto" ] && [ "$BROWSERISOPEN" = "$BROWSERISOPEN" ]; then
+		DMENU_QUERY=$(dmenu -p "search something : " <&-)
+		OPTS="Most Relevant\nNewest\nOldest"
+		SELECT=$(echo -e "$OPTS" | dmenu -p "select options: " -i)
+		if [ "$SELECT" = "Most Relevant" ]; then
+			URL="https://dev.to/search?q=$DMENU_QUERY"
+			xdg-open "$URL"
+		elif [ "$SELECT" = "Newest" ]; then
+			URL="https://dev.to/search?q=$DMENU_QUERY&sort_by=published_at&sort_direction=desc"
+			xdg-open "$URL"
+		elif [ "$SELECT" = "Oldest" ]; then
+			URL="https://dev.to/search?q=$DMENU_QUERY&sort_by=published_at&sort_direction=asc"
+			xdg-open "$URL"
+		fi
+	elif [ "$SELECT" = "freecodecamp" ] && [ "$BROWSERISOPEN" = "$BROWSERISOPEN" ]; then
+		DMENU_QUERY=$(dmenu -p "search something : " <&-)
+		URL="https://freecodecamp.org/news/search/?query=$DMENU_QUERY"
 		xdg-open "$URL"
-	elif [ "$SELECT" = "Subreddit" ]; then
-		URL="https://www.reddit.com/r/$DMENU_QUERY"
+	elif [ "$SELECT" = "monkeytype" ] && [ "$BROWSERISOPEN" = "$BROWSERISOPEN" ]; then
+		URL="https://monkeytype.com"
 		xdg-open "$URL"
-	fi
-elif [ "$SELECT" = "github" ] && [ "$BROWSERISOPEN" = "$BROWSERISOPEN" ]; then
-	USERNAME=$(dmenu -p "search username : " <&-)
-	REPONAME=$(dmenu -p "search reponame : " <&-)
-	if [ "$USERNAME" = "" ] || [ "$REPONAME" = "" ]; then
-		URL="https://github.com/search?q="
+	elif [ "$SELECT" = "localdev" ] && [ "$BROWSERISOPEN" = "$BROWSERISOPEN" ]; then
+		DMENU_QUERY=$(dmenu -p "search something : " <&-)
+		URL="http://localhost:$DMENU_QUERY"
 		xdg-open "$URL"
 	else
-		URL="https://github.com/$USERNAME?tab=repositories&q=$REPONAME"
-		xdg-open "$URL"
+		notify-send "Search Information" "please make sure borwser is running and please select url options"
 	fi
-elif [ "$SELECT" = "devto" ] && [ "$BROWSERISOPEN" = "$BROWSERISOPEN" ]; then
-	DMENU_QUERY=$(dmenu -p "search something : " <&-)
-	OPTS="Most Relevant\nNewest\nOldest"
-	SELECT=$(echo -e "$OPTS" | dmenu -p "select options: " -i)
-	if [ "$SELECT" = "Most Relevant" ]; then
-		URL="https://dev.to/search?q=$DMENU_QUERY"
-		xdg-open "$URL"
-	elif [ "$SELECT" = "Newest" ]; then
-		URL="https://dev.to/search?q=$DMENU_QUERY&sort_by=published_at&sort_direction=desc"
-		xdg-open "$URL"
-	elif [ "$SELECT" = "Oldest" ]; then
-		URL="https://dev.to/search?q=$DMENU_QUERY&sort_by=published_at&sort_direction=asc"
-		xdg-open "$URL"
-	fi
-elif [ "$SELECT" = "freecodecamp" ] && [ "$BROWSERISOPEN" = "$BROWSERISOPEN" ]; then
-	DMENU_QUERY=$(dmenu -p "search something : " <&-)
-	URL="https://freecodecamp.org/news/search/?query=$DMENU_QUERY"
-	xdg-open "$URL"
-elif [ "$SELECT" = "monkeytype" ] && [ "$BROWSERISOPEN" = "$BROWSERISOPEN" ]; then
-	URL="https://monkeytype.com"
-	xdg-open "$URL"
-elif [ "$SELECT" = "localdev" ] && [ "$BROWSERISOPEN" = "$BROWSERISOPEN" ]; then
-	DMENU_QUERY=$(dmenu -p "search something : " <&-)
-	URL="http://localhost:$DMENU_QUERY"
-	xdg-open "$URL"
-else
-	notify-send "Search Information" "please make sure borwser is running and please select url options"
+elif [ "$SELECT_MENU" = "bookmarks" ]; then
+	generatebookmarks
+	DATA=$(cat "$HOME/.cache/tmp/bookmarks_url")
+	SELECT=$(echo "$DATA" | dmenu -i -l 10 -p "where you want to go: ")
+	xdg-open $SELECT
 fi
