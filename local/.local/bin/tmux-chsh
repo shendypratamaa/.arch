@@ -1,0 +1,15 @@
+#!/bin/sh
+
+LANG=$(echo "javascript typescript bash python3 lua go" | tr " " "\n")
+UNIX=$(echo "find xargs sed awk zip rar tar curl wget ls cat cut paste diff sdiff grep echo" | tr " " "\n")
+SELECT=$(echo -e "$LANG\n$UNIX" | dmenu -i -p "select options : ")
+PREV="bat --style=plain --paging=always"
+
+LOOKINGFOR=$(dmenu -i -p "what you are looking for : " <&-)
+QUERY=$(echo "$LOOKINGFOR")
+
+if echo "$LANG" | grep -qs "$SELECT"; then
+	tmux split-window -p 50 -h bash -c "curl cht.sh/$SELECT/$(echo "$QUERY" | tr " " +) | $PREV"
+else
+	tmux split-window -p 50 -h bash -c "curl cht.sh/$SELECT~$QUERY | $PREV"
+fi

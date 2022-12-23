@@ -38,15 +38,16 @@ if [[ -d "$HOME/.config/zsh/plugins/zsh-syntax-highlighting" ]]; then
 fi
 
 # basic
-alias src='exec $SHELL'
-alias reboot='sudo shutdown -r now'
+alias src="exec $SHELL"
+alias zshrc="nvim ~/.config/zsh/.zshrc"
+alias reboot="sudo shutdown -r now"
 alias shutdown="sudo poweroff"
-alias ls='exa -s Extension --icons -h'
-alias la='exa -s Extension --icons -h -a'
-alias rm='rm -v'
-alias cp='cp -v'
-alias mv='mv -v'
-alias ln='ln -v'
+alias ls="exa -s Extension --icons -h"
+alias la="exa -s Extension --icons -h -a"
+alias rm="rm -v"
+alias cp="cp -v"
+alias mv="mv -v"
+alias ln="ln -v"
 alias gs="git status"
 alias gl="git log"
 alias gm="git commit -m"

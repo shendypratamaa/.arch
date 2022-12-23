@@ -1,0 +1,26 @@
+#!/bin/sh
+
+if [[ $# -eq 1 ]]; then
+	selected=$1
+else
+	selected=$(fd -p $HOME --max-depth 1 --min-depth 1 -L -H -t d | dmenu -l 15 -i -p "select path: ")
+fi
+
+if [[ -z $selected ]]; then
+	exit 0
+fi
+
+selected_name=$(basename "$selected")
+tmux_running=$(pgrep tmux)
+
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+	tmux new-session -s $selected_name -c $selected
+	exit 0
+fi
+
+if ! tmux has-session -t=$selected_name 2>/dev/null; then
+	tmux new-session -ds $selected_name -c $selected
+fi
+
+tmux switch-client -t $selected_name
+notify-send 'new tmux session was created 🚀 '
