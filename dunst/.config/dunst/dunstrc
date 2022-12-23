@@ -37,7 +37,7 @@ horizontal_padding = 20
 frame_width = 2
 
 # Defines color of the frame around the notification window.
-frame_color = "#282828"
+frame_color = "#000000"
 
 # Define a color for the separator.
 # possible values are:
@@ -112,13 +112,13 @@ hide_duplicate_count = false
 show_indicators = yes
 
 # Align icons left/right/off
-# icon_position = right
+icon_position = right
 
 # Scale larger icons down to this size, set to 0 to disable
-# max_icon_size = 48
+max_icon_size = 48
 
 # Paths to default icons.
-# icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
+icon_path = /usr/share/icons/Adwaita/16x16/status/:/usr/share/icons/Adwaita/16x16/devices/:/usr/share/icons/Adwaita/16x16/legacy/
 
 # Should a notification popped up from history be sticky or timeout
 # as if it would normally do.
@@ -126,9 +126,6 @@ sticky_history = yes
 
 # Maximum amount of notifications kept in history
 history_length = 20
-
-# dmenu path
-# dmenu = rofi -dmenu -p dunst
 
 # Browser for opening urls in context menu.
 browser = firefox
@@ -152,17 +149,17 @@ corner_radius = 0
 per_monitor_dpi = true
 
 [urgency_low]
-background = "#24272e"
+background = "#000000"
 foreground = "#abb2bf"
 timeout = 7
 
 [urgency_normal]
-background = "#24272e"
+background = "#000000"
 foreground = "#abb2bf"
 timeout = 7
 
 [urgency_critical]
-background = "#24272e"
+background = "#000000"
 foreground = "#abb2bf"
 frame_color = "#e06c75"
 timeout = 0

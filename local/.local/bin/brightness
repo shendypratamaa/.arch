@@ -13,15 +13,15 @@ set_brightness() {
 
 manual_brightness() {
     if [ "$1" = "" ]; then
-        D_VAL="1\n2\n3\n4\n5\n6\n7\n8\n9\n"
+        D_VAL="1\n2\n3\n4\n5\n6\n7\n8\n9\n10"
         S_VAL=$(echo -e $D_VAL | dmenu -p "Brightness value :" -i)
         NEW_VALUE="$(( "$VALUE" * "$S_VAL" ))"
         set_brightness "$NEW_VALUE"
-    elif [ "$1" -lt 10 ]; then
+    elif [ "$1" -lt 11 ]; then
         NEW_VALUE="$(( "$VALUE" * "$1" ))"
         set_brightness "$NEW_VALUE"
     else
-        notify-send 'Brightness value range [1..9]'
+        notify-send "💁 Brightness value range [1..10]"
     fi
 }
 

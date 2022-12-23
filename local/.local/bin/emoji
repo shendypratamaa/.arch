@@ -1,0 +1,7 @@
+#!/bin/sh
+
+EMOJI_PATH="$HOME/.local/share/unicode"
+
+EMOJI="$(sed '' "$EMOJI_PATH" | dmenu -p "Select Emoji: " -l 15 | cut -d' ' -f1)"
+echo "$EMOJI" | tr "\n" " " | xclip -sel c
+notify-send "$EMOJI was copy to clipboard!"

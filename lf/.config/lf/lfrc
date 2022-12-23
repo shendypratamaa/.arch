@@ -19,7 +19,7 @@ set scrolloff 10
 # custom function
 cmd open ${{
     case $(file --mime-type -Lb $f) in
-        text/*) $EDITOR $fx;;
+        text/*) "nvim" $fx;;
         video/*) "mpv" $fx ;;
         image/*) "sxiv" $fx;;
         application/pdf) "zathura" $fx ;;

@@ -6,7 +6,7 @@ DATE="$(date +%c)"
 
 if [ "$WORDS" != "" ] && [ "$MEAN" != "" ]; then
     echo "$WORDS -> $MEAN | added on : $DATE" >> "$HOME/data/en_id"
-    notify-send "Great ur awesome !"
+    notify-send "😸 Great ur awesome !"
 else
-    notify-send "Field words and meaning cannot be empty !"
+    notify-send "😈 Field words and meaning cannot be empty !"
 fi

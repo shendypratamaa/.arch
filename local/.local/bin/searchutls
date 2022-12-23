@@ -4,20 +4,17 @@
 # a bunch off error about GPU,and we must check before call it
 BROWSERISOPEN="$(ps aux | grep -i "$BROWSER" | head -1 | awk '{print $11}')"
 
-echo $(find "$HOME/.mozilla/firefox" | grep -i default-release | head -1 | awk -F '/' '{print $6}') > "$BOOKMARKSPATH/firefox_id"
-
 BOOKMARKSPATH="$HOME/.cache/tmp/firefox"
-GETID=$(cat "$BOOKMARKSPATH/firefox_id")
 
 generatebookmarks() {
-	cp ~/.mozilla/firefox/"$GETID"/places.sqlite ~/.cache/tmp &&
+	cp ~/.mozilla/firefox/*.default-rel*/places.sqlite ~/.cache/tmp &&
 		sqlite3 -line ~/.cache/tmp/places.sqlite 'select moz_places.url, moz_bookmarks.title from moz_bookmarks join moz_places on moz_bookmarks.fk = moz_places.id' &&
-		rm -f "$HOME/.cache/tmp/places.sqlite"; rm -f "$HOME/.cache/tmp/firefox_id"
+		rm -f "$HOME/.cache/tmp/places.sqlite"
 }
 
 mkdir -p ~/.cache/tmp/firefox
-generatebookmarks | grep -i url | awk -F '=' '{print $2}' | sed 's/ //g' >"$BOOKMARKSPATH/bookmarks_url"
-generatebookmarks | grep -i title | awk -F '=' '{print $2}' | awk '{print substr ( $0, 0, 50 )}' | sed 's/ //' > "$BOOKMARKSPATH/bookmarks_title"
+generatebookmarks | grep -i url | awk -F '=' '{print $2}' | sed 's/ //' >"$BOOKMARKSPATH/bookmarks_url"
+generatebookmarks | grep -i title | awk -F '=' '{print $2}' | awk '{print substr ( $0, 0, 50 )}' | sed 's/ //;s/$/ _/' > "$BOOKMARKSPATH/bookmarks_title"
 paste "$BOOKMARKSPATH/bookmarks_title" "$BOOKMARKSPATH/bookmarks_url" > "$HOME/.cache/tmp/bookmarks_result"
 
 OPTS_MENU="search\nbookmarks"
@@ -25,7 +22,7 @@ SELECT_MENU=$(echo -e "$OPTS_MENU" | dmenu -p "select menu: " -i)
 
 if [ "$SELECT_MENU" = "search" ]; then
 	DATA="google\nyoutube\nstackoverflow\nreddit\ngithub\ndevto\nfreecodecamp\nmonkeytype\nlocaldev"
-	SELECT_DATA=$(echo -e "$DATA" | dmenu -i -l 10 -p "where you want to go: ")
+	SELECT_DATA=$(echo -e "$DATA" | dmenu -i -l 15 -p "where you want to go: ")
 
 	if [ "$SELECT_DATA" = "google" ] && [ "$BROWSERISOPEN" = "$BROWSERISOPEN" ]; then
 		QUERY_OPTS=$(dmenu -p "search something : " <&-)
@@ -94,11 +91,8 @@ if [ "$SELECT_MENU" = "search" ]; then
 		URL="http://localhost:$QUERY_OPTS"
 		xdg-open "$URL"
 	else
-		notify-send "Search Information" "please make sure borwser is running and please select url options"
+		notify-send "💁 Search Information" "please make sure borwser is running and please select url options"
 	fi
 elif [ "$SELECT_MENU" = "bookmarks" ]; then
-	DATA=$(sed "" "$HOME/.cache/tmp/bookmarks_result")
-	SELECT=$(echo "$DATA" | dmenu -i -l 10 -p "where you want to go: ")
-	GETLINK=$(echo "$SELECT" | awk -F 'https' '{print $2}')
-	generatebookmarks; xdg-open "https$GETLINK";
+	generatebookmarks; xdg-open $(cat ~/.cache/tmp/bookmarks_result | dmenu -i -l 15 -p "where you want to go: " | awk -F '_' '{print $2}')
 fi

@@ -20,7 +20,7 @@ manual_kbbrightness() {
         NEW_VALUE="$(( "$VALUE" * "$1" ))"
         set_kbbrightness "$NEW_VALUE"
     else
-        notify-send 'Keyboard brightness value range [1..9]'
+        notify-send "Keyboard brightness value range [1..9]"
     fi
 }
 

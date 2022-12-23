@@ -1,0 +1,9 @@
+[Unit]
+Description=Press F1..12 without FN key
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c "echo 0 | sudo tee /sys/module/hid_apple/parameters/fnmode"
+
+[Install]
+WantedBy=multi-user.target

@@ -15,9 +15,9 @@ if [ "$URL_RESPONSE" = "200" ]; then
     echo "link share : " "$SHARE_LINK"
     xdg-open "$SHARE_LINK"
     cat "$TMP_LINK" | tail -1 | tr -d '\n' | xclip -sel c
-    notify-send 'great file successfuly uploaded !'
+    notify-send "🥰 great file successfuly uploaded !"
     exit
 else
-    notify-send 'woops file failed to upload !'
+    notify-send "🙅 woops file failed to upload !"
     exit
 fi

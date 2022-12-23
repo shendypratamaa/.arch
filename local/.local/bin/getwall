@@ -2,34 +2,34 @@
 
 set -e
 
-walldir="$HOME/pictures/save"
+WALLDIR="$HOME/pictures/save"
 
-tagoptions="#4K\n#nature\n#minimalism\n#cyberpunk\n#futuristic\n#landescape\n##digital art\n#science fiction"
+TAGOPTIONS="#4K\n#nature\n#minimalism\n#cyberpunk\n#futuristic\n#landescape\n##digital art\n#science fiction"
 if [ -z "$1" ]; then
-	query=$(echo -e $tagoptions | dmenu -p "Search Wallpaper: " -i)
+	QUERY=$(echo -e $TAGOPTIONS | dmenu -p "Search Wallpaper: " -i)
 else
-	query="${*:1}"
+	QUERY="${*:1}"
 fi
 
-sortingopts="date_added\nrelevance\nrandom\nviews\nfavorites\ntoplist"
-sorting=$(echo -e $sortingopts | dmenu -p "Start Order: " -i)
+SORTINGOPTS="date_added\nrelevance\nrandom\nviews\nfavorites\ntoplist"
+SORTING=$(echo -e $SORTINGOPTS | dmenu -p "Start Order: " -i)
 
-pageslength="1\n2\n3\n4\n5"
-pages=$(echo -e $pageslength | dmenu -p "Total Pages: " -i)
+PAGELENGTH="1\n2\n3\n4\n5"
+PAGE=$(echo -e $PAGELENGTH | dmenu -p "Total Pages: " -i)
 
-query=$(sed 's/#//g' <<<$query)
-query=$(sed 's/ /+/g' <<<$query)
-echo $query
+QUERY=$(sed 's/#//g' <<<$QUERY)
+QUERY=$(sed 's/ /+/g' <<<$QUERY)
+echo $QUERY
 
-for i in $(seq 1 $pages); do
-	notify-send "Downloading Start!"
-	curl https://wallhaven.cc/api/v1/search\?atleast\=1920x1080\&ratios\=16x9\&sorting\=$sorting\&q\=$query\&page\=$i >tmp.txt
-	page=$(cat tmp.txt | jq '.' | grep -Eoh "https:\/\/w\.wallhaven.cc\/full\/.*(jpg|png)\b")
-	wget -nc -P $walldir $page --no-check-certificate
+for i in $(seq 1 $PAGE); do
+	notify-send "⏯️  Downloading Start!"
+	curl https://wallhaven.cc/api/v1/search\?atleast\=1920x1080\&ratios\=16x9\&sorting\=$SORTING\&q\=$QUERY\&page\=$i >tmp.txt
+	PAGE=$(cat tmp.txt | jq '.' | grep -Eoh "https:\/\/w\.wallhaven.cc\/full\/.*(jpg|png)\b")
+	wget -nc -P $WALLDIR $PAGE --no-check-certificate
 done
 
-notify-send 'Download successfully!'
+notify-send "🔥 Download successfully!"
 
 rm tmp.txt
-sxiv -t $walldir/*
-mv -f $walldir/* ~/pictures/wallpaper
+sxiv -t $WALLDIR/*
+mv -f $WALLDIR/* ~/pictures/wallpaper

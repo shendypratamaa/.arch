@@ -8,7 +8,7 @@ SELECT_MENU=$(echo -e "$OPTS_MENU" | dmenu -p "select menu: " -i)
 if [ "$SELECT_MENU" = "open channel" ]; then
 
     CHANNEL="$(cat "$HOME/data/open_channel")"
-    SELECT_CHANNEL="$(echo "$CHANNEL" | dmenu -i -l 10 -p "select channel: ")"
+    SELECT_CHANNEL="$(echo "$CHANNEL" | dmenu -i -l 15 -p "select channel: ")"
 
     OPTS="featured\nvideos\nplaylists\nshorts\nstreams\nabout"
     SELECT_OPTS="$(echo -e "$OPTS" | dmenu -p "select options: " -i)"
@@ -16,10 +16,10 @@ if [ "$SELECT_MENU" = "open channel" ]; then
     if [ "$SELECT_CHANNEL" != "" ] && [ "$SELECT_OPTS" != "" ]; then
         xdg-open "$URL/$SELECT_CHANNEL/$SELECT_OPTS"
     else
-        notify-send "No Channel Selected !"
+        notify-send "🙅 No Channel Selected !"
     fi
 elif [ "$SELECT_MENU" = "add channel" ]; then
     INSERT_CHANNEL=$(dmenu -p "add channel " -i)
     echo "$INSERT_CHANNEL" >> "$HOME/data/open_channel"
-    notify-send "$INSERT_CHANNEL was added !"
+    notify-send "📖 $INSERT_CHANNEL was added !"
 fi
