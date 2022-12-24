@@ -105,10 +105,10 @@ do
 		[ $((SEC % 5)) -eq 0 ] && update_time
 		[ $((SEC % 10)) -eq 0 ] && update_battery
 		[ $((SEC % 10)) -eq 0 ] && update_devices_connection
-		[ $((SEC % 15)) -eq 0 ] && update_cpu
-		[ $((SEC % 15)) -eq 0 ] && update_memory
-		[ $((SEC % 15)) -eq 0 ] && update_disk
-		[ $((SEC % 120)) -eq 0 ] && update_weather
+		[ $((SEC % 10)) -eq 0 ] && update_cpu
+		[ $((SEC % 10)) -eq 0 ] && update_memory
+		[ $((SEC % 30)) -eq 0 ] && update_disk
+		[ $((SEC % 60)) -eq 0 ] && update_weather
 
 		# how often the display updates ( 5 seconds )
 		[ $((SEC % 5)) -eq 0 ] && display

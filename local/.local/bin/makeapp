@@ -1,0 +1,27 @@
+#!/bin/sh
+
+set -e
+
+APPURL="$1"
+APPNAME="$2"
+APPPATH="$HOME/.local/share/"
+COLOR='#000000'
+
+OPTS=" \
+--name $APPNAME --quiet --disaable-dev-tools --single-instance --zoom 0 \
+--disable-gpu --user-agent firefox --background-color $COLOR \
+"
+
+mkdir -p $HOME/applications/bin
+
+make_app(){
+	nativefier $@
+}
+
+if [ -z "$APPURL" ] && [ -z "$APPNAME" ]; then
+	notify-send "🔗 please add website and appname url!"
+else
+	make_app $APPURL $OPTS
+	notify-send "🏠 create app successfully!"
+	ln -sfv $HOME/applications/$APPNAME*/$APPNAME $HOME/applications/bin
+fi

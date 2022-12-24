@@ -1,0 +1,10 @@
+#!/bin/sh
+
+GETAPP=$(fd . "$HOME/applications/bin/" x)
+SELECT_APP=$(echo "$GETAPP" | dmenu -i -l 15 -p "select app : ")
+
+if [ -z "$SELECT_APP" ]; then
+    notify-send '🏔️ Please select application!'
+else
+    setsid -f "$SELECT_APP" 2>/dev/null
+fi

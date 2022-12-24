@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+
+if [ "$1" != "" ]; then
+    FPS="60"
+    mkdir -p $HOME/video/screenrecord
+    ffmpeg -f x11grab -r "$FPS" -i :0.0 -f mp4 "$1"
+    ISRUN=$(ps ax | grep ffmpeg | awk '{print $5}')
+    if [ "$ISRUN" != "ffmpeg" ]; then
+        mv $1 $HOME/video/screenrecord
+        notify-send '📹 screen capture was successfully saved!'
+    fi
+else
+    notify-send '📹 please input file name eg record tx.mp4'
+fi

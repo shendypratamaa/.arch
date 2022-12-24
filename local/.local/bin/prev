@@ -31,10 +31,10 @@ elif [ "$1" = "-w" ] || [ "$1" = "--wall" ]; then
 	setsid -f sxiv -t $wall_path 2>/dev/null
 elif [ "$1" = "-v" ] || [ "$1" = "--video" ]; then
 	filter=$(fd . $movies_path -t f | grep -E '.*(mp4)' | sort -u | fzf -m --prompt='👉 open video > ')
-	setsid -f mpv $filter
+	setsid -f mpv $filter 2>/dev/null
 elif [ "$1" = "-e" ] || [ "$1" = "--ebook" ]; then
 	filter=$(fd . "$ebooks_path" -t f | fzf -m --prompt="👉 open ebook > ")
-	 setsid -f zathura $filter
+	 setsid -f zathura $filter 2>/dev/null
 elif [ "$1" = "-h" ]; then
 	__help
 	exit

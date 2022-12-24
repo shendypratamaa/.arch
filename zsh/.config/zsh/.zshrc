@@ -62,16 +62,21 @@ alias systemctl="sudo systemctl"
 alias npml="npm list --location=global --depth=0"
 alias ppath="echo $PATH | tr ':' '\n'"
 alias lf="lfrun"
+alias du="du -sh"
 
 # repo check
 alias gh="xdg-open \`git remote -v | grep fetch | awk '{print \$2}' | sed 's/git@/http:\/\//' | sed 's/com:/com\//'\`| head -n1"
 
 # NAV DIR
+alias cda="cd ~/applications"
+alias cdd="cd ~/data"
+alias cdm="cd ~/.arch"
 alias cdc="cd ~/.config"
 alias cdn="cd ~/.config/nvim"
 alias cdz="cd ~/.config/zsh"
-alias cdm="cd ~/.arch"
+alias cde="cd ~/.cache"
 alias cds="cd ~/.local/bin"
+alias cdl="cd ~/.local/share/"
 alias cdw="cd ~/.local/share/suckless"
 
 # XDG-REFERENCES
@@ -147,28 +152,19 @@ zle -N vi-yank-xclip
 
 ###################### FZF ##############################
 # FZF OPTS
-EXCLUDE_FZF=" \
---exclude=.git \
---exclude=.cache \
---exclude=.node_modules \
---exclude=.arch \
---exclude=.local \
---exclude=.npm \
---exclude=.ssh \
---exclude=.viminfo \
---exclude=.mozilla \
---exclude=go \
---exclude=Pictures \
---exclude=Public \
+export EXCLUDE_FZF=" \
+--exclude=.git --exclude=.cache --exclude=.node_modules --exclude=.arch \
+--exclude=.local --exclude=.npm --exclude=.ssh --exclude=.viminfo \
+--exclude=.mozilla --exclude=go --exclude=.config/tmux/plugins --exclude=.pki \
+--exclude=.config/zsh/plugins --exclude=.config/pipe-viewer/playlist \
+--exclude=.config/Thunar --exclude=.config/pulse --exclude=.config/xfce4 \
+--exclude=docs --exclude=video --exclude=music --exclude=pictures \
+--exclude=applications \
 "
 
 # FZF DEFAULT OPTS
 export FZF_DEFAULT_OPTS=" \
---height 50% \
---layout=reverse \
---border sharp \
---inline-info \
---margin 0,0.40% \
+--height 50% --layout=reverse --border sharp --inline-info --margin 0,0.40% \
 "
 
 # FZF COMMAND
