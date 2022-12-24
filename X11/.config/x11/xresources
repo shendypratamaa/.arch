@@ -5,3 +5,8 @@ Xft.hinting               : true
 Xft.antialias             : true
 Xft.rgba                  : rgb
 Xft.dpi                   : 227
+
+! sxiv
+Sxiv.font: JetBrains Mono:size=4
+Sxiv.foreground: #ffffff
+Sxiv.background: #000000

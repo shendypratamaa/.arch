@@ -1,4 +1,6 @@
-![ohmyarch](./ohmyarch.png)
+![asahi1](./asahi1.png)
+
+![asahi2](./asahi2.png)
 
 [asahi@linux] \
 [asahi](https://asahilinux.org)

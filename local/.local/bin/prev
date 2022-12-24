@@ -25,7 +25,7 @@ __help() {
 }
 
 if [ "$1" = "-ci" ] || [ "$1" = "--image" ]; then
-	filter=$(fd . -L -t f | grep -E '.*(jpg|png)' | sort -r | fzf -m --prompt='👉 open image > ')
+	filter=$(fd . -L -t f --exclude=applications | grep -E '.*(jpg|png)' | sort -r | fzf -m --prompt='👉 open image > ')
 	setsid -f sxiv $filter 2>/dev/null
 elif [ "$1" = "-w" ] || [ "$1" = "--wall" ]; then
 	setsid -f sxiv -t $wall_path 2>/dev/null

@@ -8,7 +8,7 @@ APPPATH="$HOME/.local/share/"
 COLOR='#000000'
 
 OPTS=" \
---name $APPNAME --quiet --disaable-dev-tools --single-instance --zoom 0 \
+--name $APPNAME --quiet --disable-dev-tools --single-instance --zoom 0 \
 --disable-gpu --user-agent firefox --background-color $COLOR \
 "
 
