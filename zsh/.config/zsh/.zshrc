@@ -151,15 +151,17 @@ zle -N vi-yank-xclip
 ###################### ZSH ##############################
 
 ###################### FZF ##############################
+
 # FZF OPTS
 export EXCLUDE_FZF=" \
 --exclude=.git --exclude=.cache --exclude=.node_modules --exclude=.arch \
 --exclude=.local --exclude=.npm --exclude=.ssh --exclude=.viminfo \
 --exclude=.mozilla --exclude=go --exclude=.config/tmux/plugins --exclude=.pki \
---exclude=.config/zsh/plugins --exclude=.config/pipe-viewer/playlist \
---exclude=.config/Thunar --exclude=.config/pulse --exclude=.config/xfce4 \
---exclude=docs --exclude=video --exclude=music --exclude=pictures \
---exclude=applications \
+--exclude=.config/zsh/plugins --exclude=.config/pipe-viewer/playlists \
+--exclude=.config/pipe-viewer/watched.txt --exclude=.config/Thunar \
+--exclude=.config/pulse --exclude=.config/xfce4 \
+--exclude=.config/discord-nativefier-888d53 --exclude=.config/whatsapp-nativefier-d40211 \
+--exclude=docs --exclude=video --exclude=music --exclude=pictures --exclude=applications \
 "
 
 # FZF DEFAULT OPTS
@@ -176,6 +178,7 @@ export FZF_COMPLETION_TRIGGER="~~"
 # FZF ALIAS
 alias vd="cd ~ && cd \$($FZF_DEFAULT_COMMAND $EXCLUDE_FZF -d 7 --type d | fzf --preview 'tree -C {}' )"
 alias vn="$FZF_DEFAULT_COMMAND $EXCLUDE_FZF -d 7 --type f | fzf -m --preview 'bat --style=plain --color=always --line-range :500 {}' | xargs -r nvim"
+
 ###################### FZF ##############################
 
 # TMUX
